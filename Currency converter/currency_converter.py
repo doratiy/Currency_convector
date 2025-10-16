@@ -7,13 +7,10 @@ from requests import HTTPError
 
 def get_exchange_rate(api_key, base_currency):
     url = f"https://v6.exchangerate-api.com/v6/{api_key}/latest/{base_currency}"
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
-        base_currencies = response.json()["conversion_rates"]
-        return base_currencies
-    except HTTPError:
-        print("непраильно набранна базовая валюта")
+    response = requests.get(url)
+    response.raise_for_status()
+    base_currencies = response.json()["conversion_rates"]
+    return base_currencies
 
 
 def convert_amount(target_currency, amount_of_money, base_currencies):
@@ -33,7 +30,9 @@ if __name__ == "__main__":
     base_currency = args.base.upper()
     target_currency = args.target.upper()
     amount_of_money = args.amount
-    base_currencies = get_exchange_rate(api_key, base_currency)
-    converted_amount = convert_amount(target_currency, amount_of_money, base_currencies)
-    print("Конвертированная сумма ", converted_amount, target_currency)
-
+    try:
+        base_currencies = get_exchange_rate(api_key, base_currency)
+        converted_amount = convert_amount(target_currency, amount_of_money, base_currencies)
+        print("Конвертированная сумма ", converted_amount, target_currency)
+    except HTTPError:
+        print("неправильно набранна базовая валюта")
