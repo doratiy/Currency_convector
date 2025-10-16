@@ -17,10 +17,9 @@ def get_exchange_rate(api_key, base_currency):
 
 
 def convert_amount(target_currency, amount_of_money, base_currencies):
-    for currency in base_currencies:
-        if currency == target_currency:
-            converted_amount = float(amount_of_money) * float(base_currencies[f"{currency}"])
-            return converted_amount
+    if target_currency in base_currencies:
+        converted_amount = float(amount_of_money) * float(base_currencies[f"{target_currency}"])
+        return converted_amount
 
 
 if __name__ == "__main__":
@@ -37,3 +36,4 @@ if __name__ == "__main__":
     base_currencies = get_exchange_rate(api_key, base_currency)
     converted_amount = convert_amount(target_currency, amount_of_money, base_currencies)
     print("Конвертированная сумма ", converted_amount, target_currency)
+
