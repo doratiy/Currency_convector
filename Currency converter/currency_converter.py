@@ -23,9 +23,9 @@ if __name__ == "__main__":
     load_dotenv(".env")
     api_key = os.environ["API_KEY"]
     parser = argparse.ArgumentParser(description="конвертирует суммы валют")
-    parser.add_argument("-b", "--base", help="Введите код базовой валюты (например, RUB)", required=True)
-    parser.add_argument("-t", "--target", help="Введите код целевой валюты (например, USD)", required=True)
-    parser.add_argument("-a", "--amount", help="Введите сумму денег:", required=True)
+    parser.add_argument("-b", "--base", default="RUB", help="Введите код базовой валюты (например, RUB)", required=False)
+    parser.add_argument("-t", "--target", default="USD", help="Введите код целевой валюты (например, USD)", required=False)
+    parser.add_argument("-a", "--amount", default=1000, help="Введите сумму денег:", required=False)
     args = parser.parse_args()
     base_currency = args.base.upper()
     target_currency = args.target.upper()
@@ -36,3 +36,4 @@ if __name__ == "__main__":
         print("Конвертированная сумма ", converted_amount, target_currency)
     except HTTPError:
         print("неправильно набранна базовая валюта")
+
